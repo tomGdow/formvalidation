@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+    #location-dot-search, #location-dot-search-substring-one {
+        margin-top: 25px;
+        font-weight: bold;
+    }
+    #location-dot-search > p, #location-dot-search-substring-one>p{
+        font-weight: normal;
+    }
+    </style>
+</head>
+<body>
+    <h3>Form Submission Data</h3>
+    <h4>Parameters</h4>
+    <div id="mylocation"></div>
+    <div id="fname"></div>
+    <div id="lname"></div>
+    <div id="myemail"></div>
+    <h4>Raw Query String</h4>
+    <div id="rawlocation"></div>
+    <div id="location-dot-search"></div>
+    <div id="location-dot-search-substring-one"></div>
+    <div id="location-dot-search-substring-one-dot-split"></div>
+    <script>
+        
+        var rawLocationHeading = `window.location`;  // "window.location"
+        var rawLocationText = `${window.location}`;
+        //  "http://127.0.0.1:5500/sendmetohere.html?location=Summerlin&fname=Thomas&lname=Dowling&state=NV&city=Prosperous&password=javascript&myemail=thomasgdowling%40gmail.com&zip=222&found=radio&instrument=Guitar&hoursPlayed=2&comments=This+is+a+comment+"
+
+        var locationDotSearchHeading =`window.location.search`;
+        // window.location.search
+        
+        var locationDotSearchText =`${window.location.search}`;
+        // ?location=Summerlin&fname=Thomas&lname=Dowling&state=NV&city=Prosperous&password=javascript&myemail=thomasgdowling%40gmail.com&zip=222&found=radio&instrument=Guitar&hoursPlayed=2&comments=This+is+a+comment+
+        
+        var locationDotSearchDotSubstringOneHeading =`window.location.search.substring(1)`;
+        //  window.location.search.substring(1)
+
+        var locationDotSearchDotSubstringOneText =`${window.location.search.substring(1)}`;
+        // location=Summerlin&fname=Thomas&lname=Dowling&state=NV&city=Prosperous&password=javascript&myemail=thomasgdowling%40gmail.com&zip=222&found=tv&instrument=Guitar&hoursPlayed=2&comments=This+is+a+comment
+       
+        var locationDotSearchDotSubstringOneDotSplitHeading =`window.location.search.substring(1).split('&')`;
+        // window.location.search.substring(1).split('&')
+
+        var locationDotSearchDotSubstringOneDotSplitText =`${window.location.search.substring(1).split('&')}`;
+        // location=Summerlin,fname=Thomas,lname=Dowling,state=NV,city=Prosperous,password=javascript,myemail=thomasgdowling%40gmail.com,zip=222,found=tv,instrument=Guitar,hoursPlayed=2,comments=This+is+a+comment
+
+        var mylocationarr=window.location.search.substring(1).split('&')[0].split('='); // [ "location", "Summerlin" ]
+        var mylocation =`${mylocationarr[0]} ${mylocationarr[1]}`; //  "location Summerlin"
+        var fnamearr = window.location.search.substring(1).split('&')[1].split('='); // [ "fname", "Thomas" ]
+        var fname = `${fnamearr[0]} ${fnamearr[1]}`; // "fname Thomas"
+        var lnamearr = window.location.search.substring(1).split('&')[2].split('='); //  [ "lname", "Dowling" ]
+        var lname = `${lnamearr[0]} ${lnamearr[1]}`; // "lname Dowling"
+        var myemailarr = window.location.search.substring(1).split('&')[6].split('='); //  [ "myemail", "thomasgdowling%40gmail.com" ]
+        var myemail = `${myemailarr[0].substring(2)} ${decodeURIComponent(myemailarr[1])}`;
+        var para1 = document.createElement('p'); // <p></p>
+        var para2 = document.createElement('p');
+        var para3 = document.createElement('p');
+        var para4 = document.createElement('p');
+
+         document.getElementById('rawlocation').innerHTML=rawLocationHeading;
+         // RHS of above:"http://127.0.0.1:5500/sendmetohere.html?location=Summerlin&amp;fname=Thomas&amp;lname=Dowling&amp;state=NV&amp;city=Prosperous&amp;password=javascript&amp;myemail=thomasgdowling%40gmail.com&amp;zip=222&amp;found=radio&amp;instrument=Guitar&amp;hoursPlayed=2&amp;comments=This+is+a+comment+"
+         
+         document.getElementById('rawlocation').appendChild(para1)
+         document.getElementById('rawlocation').innerHTML=rawLocationText;
+
+         document.getElementById('location-dot-search').innerText=locationDotSearchHeading;
+         // RHS of above: ?location=Summerlin&fname=Thomas&lname=Dowling&state=NV&city=Prosperous&password=javascript&myemail=thomasgdowling%40gmail.com&zip=222&found=radio&instrument=Guitar&hoursPlayed=2&comments=This+is+a+comment+"
+        
+         document.getElementById('location-dot-search').appendChild(para2);
+         document.getElementById('location-dot-search').childNodes[1].innerHTML=locationDotSearchText;
+         
+        document.getElementById('location-dot-search-substring-one').innerText=locationDotSearchDotSubstringOneHeading;
+        //  RHS of above: <div id="location-dot-search-substring-one">window.location.search.substring(1)<p>location=Summerlin&amp;fname=Thomas&amp;lname=Dowling&amp;state=NV&amp;city=Prosperous&amp;password=javascript&amp;myemail=thomasgdowling%40gmail.com&amp;zip=222&amp;found=radio&amp;instrument=Guitar&amp;hoursPlayed=2&amp;comments=This+is+a+comment+</p></div>
+        document.getElementById('location-dot-search-substring-one').appendChild(para3);
+        document.getElementById('location-dot-search-substring-one').childNodes[1].innerText=locationDotSearchDotSubstringOneText;
+
+        document.getElementById('fname').innerHTML = fname;
+        //  RHS of above: "fname Thomas"
+        document.getElementById('lname').innerHTML = lname;
+        //  RHS of above: "lname Dowling"
+        document.getElementById('myemail').innerHTML=myemail;
+        /// RHS of above "email thomasgdowling@gmail.com" 
+
+    </script>
+</body>
+</html>

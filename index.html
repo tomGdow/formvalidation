@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+
+    <style>
+        label {
+        display: inline-block;
+        width: 120px;
+        text-align: right;
+        padding-right: 5px;
+        background-color:lightgray;
+        }
+    </style>
+</head>
+
+<body>
+    <form action="./sendmetohere.html" method="get" onsubmit="checkFields(event)">
+
+        <div>
+            <label for="location">Location</label>
+            <select name="location" id="location">
+                <option value=""></option>
+                <option value="Summerlin" onclick="fillState(this.value)">Summerlin</option>
+                <option value="SaltLakeCity" onclick="fillState(this.value)">Salt Lake City</option>
+            </select>
+        </div>
+        <div>
+            <label for="fname">fname</label>
+            <input type="text" name="fname" id="fname" oninput="fout.innerHTML=this.value.toUpperCase()">
+            <span id="fout"></span>
+        </div>
+        <div>
+            <label for="lname">lname</label>
+            <input type="text" name="lname" id="lname" oninput="lout.innerHtML=this.value.toUpperCase()">
+            <span id="lout"></span>
+        </div>
+        <div>
+            <label for="state">State</label>
+            <input type="text" name="state" id="state" onchange="toUpper(this.value, this.id)">
+        </div>
+        <div>
+            <label for="city">City</label>
+            <input type="text" name="city" id="city" onchange="checkCity(this.value)">
+        </div>
+        <div>
+            <label for="password">Password</label>
+            <input type="password" name="password" id="password" oninput="pout.innerText=this.value">
+            <span id="pout"></span>
+        </div>
+        <div>
+            <label for="email">Email</label>
+            <input type="email" name="myemail" id="myemail">
+        </div>
+        <div>
+            <label for="zip">Zip</label>
+            <input type="text" name="zip" id="zip" required>
+        </div>
+        <div>
+            <p>How did you hear about us ?</p>
+            <label for="found">Choose ... </label>
+            <select name="found" id="found">
+                <optgroup label="Media">
+                    <option value="tv" onchange="">TV</option>
+                    <option value="radio">Radio</option>
+                    <option value="other">Other</option>
+                </optgroup>
+                <optgroup label="web">
+                    <option value="Goolge">Google</option>
+                    <option value="Bing">Bing</option>
+                </optgroup>
+            </select>
+        </div>
+        <div>
+            <p>What instrument are you most interested Learning?</p>
+            <label for="instrument">Choose ...</label>
+            <input type="text" name="instrument" id="instrument" list="instruments" onchange="tolower(this.value, this.id)">
+            <datalist id="instruments">
+                <option value="guitar">Guitar</option>
+                <option value="fiddle">Fiddle</option>
+                <option value="drums">Drums</option>
+            </datalist>
+            <div>
+                <p>How many hours do you practice an instrument now?</p>
+                <label for="hoursPlayed">Please Indicate ... </label>
+                <input type="number" name="hoursPlayed" id="hoursPlayed" value="hoursPlayed">
+            </div>
+            <div>
+                <p>Insert comments below</p>
+                <textarea name="comments" id="comments" cols="30" rows="10"></textarea>
+            </div>
+            <div>
+                <input type="submit" value="Submit" onclick="returnName()">
+            </div>
+            <div id="output"></div>
+            <div id="testResults"></div>
+        </div>
+    </form>
+    <script>
+    function returnName() {
+        var fname=document.getElementById('fname');
+        var lname=document.getElementById('lname');
+        var found = document.getElementById('found');
+
+        var textToAdd =`${fname.value} ${lname.value}`;
+        textToAdd+=`You found us from ${found.value}`;
+        document.getElementById('output').innerHTML=textToAdd;
+    }
+    function fillState(location) {
+        var state=document.getElementById('state');
+        if(state.value===''){
+            if(location ==='SaltLakeCity') {
+                state.value='UT'
+            } else if (location === 'Summerlin') {
+                state.value="NV";
+            } else {
+                state.value=null;
+            }
+        }
+    }
+
+    function toUpper(text, id) {
+        document.getElementById(id).value=text.toUpperCase();
+    }
+
+    function checkCity(city) {
+        city=city.toUpperCase();
+        var possibilities = ['Las Vegas', 'North Las Vegas', 'Henderson', 'Prosperous'];
+        possibilities =possibilities.map(function(a) {
+            return a.toUpperCase();
+        })
+
+        if (city ===possibilities[0] || city == possibilities[1] || city == possibilities[2] || city == possibilities[3]) {
+            document.getElementById('testResults').innerHTML="The Summerlin location will open in 2018"
+        }
+    }
+    
+    function checkFields(event) {
+        var checka = document.getElementById('fname');
+        var checkb = document.getElementById('lname');
+
+        if(checka.value=='') {
+            document.getElementById('fout').innerHTML="This field must be filled in!"
+            document.getElementById('fout').style.backgroundColor='red';
+            event.preventDefault();
+            // alert('this field must be filled in');
+        }
+
+        if (checkb.value=='') {
+            document.getElementById('lout').innerHTML="This field must be filled in";
+            document.getElementById('lout').style.backgroundColor='red';
+        }
+    }
+    
+    </script>
+</body>
+
+</html>
